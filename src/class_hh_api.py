@@ -28,7 +28,6 @@ class HeadHunter(GetApi):
         """Инициализация класса HeadHunter"""
         self.url = "https://api.hh.ru/vacancies"
 
-
     def get_response(self, text: str, per_page: int) -> Response:
         """ Запрос на API HH.ru"""
         params = {"text": f"NAME:{text}", "per_page": per_page}
@@ -49,13 +48,7 @@ class HeadHunter(GetApi):
                 "name": vacancy["name"],
                 "salary": vacancy["salary"],
                 "url": vacancy["alternate_url"],
-                "employer": vacancy["employer"]["name"]
+                "employer": vacancy["employer"]["name"],
+                "requirement": vacancy["snippet"]["requirement"]
             })
             return filtered_vacancies
-
-
-if __name__ == "__main__":
-    hh = HeadHunter()
-    print('Получаем вакансии с сайта')
-    vacancies = hh.get_vacancies('python', 10)
-    print(vacancies)
