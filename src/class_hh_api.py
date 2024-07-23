@@ -11,7 +11,7 @@ class GetApi(ABC):
         pass
 
     @abstractmethod
-    def get_vacancies(self, *args, **kwargs):
+    def get_vacancies_response(self, *args, **kwargs):
         """Абстрактный метод получения вакансий"""
         pass
 
@@ -34,7 +34,7 @@ class HeadHunter(GetApi):
         response = requests.get(self.url, params=params)
         return response
 
-    def get_vacancies(self, text: str, per_page: int) -> list:
+    def get_vacancies_response(self, text: str, per_page: int) -> list:
         """Получение вакансий с HH.ru"""
         vacancies = self.get_response(text, per_page).json()["items"]
         return vacancies
@@ -42,13 +42,16 @@ class HeadHunter(GetApi):
     def get_filter_vacancies(self, text: str, per_page: int = 30) -> list:
         """Фильтрация вакансий """
         filtered_vacancies = []
-        vacancies_filtered = self.get_vacancies(text, per_page)
+        vacancies_filtered = self.get_vacancies_response(text, per_page)
         for vacancy in vacancies_filtered:
             filtered_vacancies.append({
                 "name": vacancy["name"],
-                "salary": vacancy["salary"],
+                "salary_from": vacancy["salary"]["from"],
+                "salary_to": vacancy["salary"]["to"],
+                "salary_currency": vacancy["salary"]["currency"],
                 "url": vacancy["alternate_url"],
                 "employer": vacancy["employer"]["name"],
-                "requirement": vacancy["snippet"]["requirement"]
+                "requirement": vacancy["snippet"]["requirement"],
+                "responsibility": vacancy["snippet"]["responsibility"]
             })
             return filtered_vacancies
