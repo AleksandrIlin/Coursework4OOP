@@ -1,18 +1,18 @@
 from src.class_hh_api import HeadHunter
-from src.utils import get_salary, get_vacancies_by_salary
 from src.class_json import JSONSaver
+from src.utils import get_salary, get_vacancies_by_salary
 
 
 def main() -> None:
     """Главная функция работы с пользователем"""
-    print('Добрый день! С помощью этого приложения поиск вакансий на hh.ru станет намного проще.')
+    print("Добрый день! С помощью этого приложения поиск вакансий на hh.ru станет намного проще.")
     hh = HeadHunter()
-    print('Получаем вакансии с сайта')
-    text = input("Введите слова для поиска вакансий: ").lower()
-    per_page = input("Введите количество вакансий которое хотите вывести на экран: ")
-    vacancies = hh.get_vacancies_response(text, per_page)
+    print("Получаем вакансии с сайта")
+    text: str = input("Введите слова для поиска вакансий: ").lower()
+    per_page: int = int(input("Введите количество вакансий которое хотите вывести на экран: "))
+    vacancies: list[dict] = hh.get_vacancies_response(text, per_page)
 
-    print('Сохраняем вакансии в файл')
+    print("Сохраняем вакансии в файл")
     saver = JSONSaver()
     saver.write_data(vacancies)
 
@@ -34,4 +34,3 @@ def main() -> None:
 
 
 main()
-

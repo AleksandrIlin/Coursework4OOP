@@ -1,24 +1,30 @@
+from typing import Any
+
 from src.class_json import JSONSaver
 
 
-def get_salary():
+def get_salary() -> Any:
     """Функция ввода зарплаты для поиска по вакансиям"""
     while True:
-        salary = input('Введите диапазон зарплат в формате "минимальная зарплата - максимальная зарплата", '
-                       'если хотите вывести вакансии где зарплата не указана укажите минимальную зарплату равную 0: ')
+        salary = input(
+            'Введите диапазон зарплат в формате "минимальная зарплата - максимальная зарплата", '
+            "если хотите вывести вакансии где зарплата не указана укажите минимальную зарплату равную 0: "
+        )
         try:
-            min_salary_str, max_salary_str = salary.split(' - ')
+            min_salary_str, max_salary_str = salary.split(" - ")
             min_salary = int(min_salary_str)
             max_salary = int(max_salary_str)
             if min_salary > max_salary:
                 raise ValueError
             return min_salary, max_salary
         except ValueError:
-            print('Неправильно введен диапазон. Пожалуйста, введите зарплаты в формате '
-                  '"минимальная зарплата - максимальная зарплата"')
+            print(
+                "Неправильно введен диапазон. Пожалуйста, введите зарплаты в формате "
+                '"минимальная зарплата - максимальная зарплата"'
+            )
 
 
-def get_vacancies_by_salary(min_salary, max_salary, choise):
+def get_vacancies_by_salary(min_salary: int, max_salary: int, choise: str) -> Any:
     """Функция получения вакансий по зарплате"""
     result = []
     saver = JSONSaver()
@@ -29,6 +35,7 @@ def get_vacancies_by_salary(min_salary, max_salary, choise):
 
         if salary_from >= min_salary and salary_to <= max_salary:
             result.append(vac)
+
     if choise.lower() == "да":
         result.sort(key=lambda x: (x.salary_from, x.salary_to))
     return result

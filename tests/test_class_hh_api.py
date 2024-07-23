@@ -3,18 +3,19 @@ from src.class_hh_api import HeadHunter
 
 
 @pytest.fixture
-def headhunter_instance():
+def headhunter_instance() -> HeadHunter:
     return HeadHunter()
 
 
-def test_get_response(headhunter_instance):
+def test_get_response(headhunter_instance: HeadHunter) -> None:
     response = headhunter_instance.get_response("python", 5)
     assert response.status_code == 200
 
 
-def test_get_vacancies(headhunter_instance):
+def test_get_vacancies(headhunter_instance: HeadHunter) -> None:
     vacancies = headhunter_instance.get_vacancies_response("python", 5)
     assert isinstance(vacancies, list)
+
 
 # def test_get_filter_vacancies(headhunter_instance):
 #     filtered_vacancies = headhunter_instance.get_filter_vacancies("python")
